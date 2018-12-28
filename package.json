@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/scripts/index.js",
   "scripts": {
-    "dev": "parcel index.html",
+    "dev": "parcel index.html --out-dir public",
     "build": "parcel build index.html --out-dir public --public-url \".\"",
     "deploy": "npm run build && gh-pages -d public",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -33,7 +33,7 @@
     "parcel-bundler": "^1.11.0"
   },
   "dependencies": {
-    "bootstrap": "^3.4.0",
+    "bootstrap": "^4.2.1",
     "jquery": "^3.3.1"
   }
 }

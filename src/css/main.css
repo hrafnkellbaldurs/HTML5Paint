@@ -1,56 +1,31 @@
-@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 
-#myCanvas {
-    border: 1px solid #000;
-    background-color: #ffffff;
-    border-radius: 5px;
+html {
+    font-size: 15px;
 }
 
 body {
-    padding-top: 20px;
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    line-height: 1.42857143;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #ffffff;
     background-color: #222222;
 }
 
-.another-container {
+h1 {
+    font-weight: bold;
+}
+
+#myCanvas {
+    border: 1px solid black;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.app-container {
+    padding-top: 20px;
     width: 930px;
 }
 
-.page-title {
-    font-size: 3em;
-    margin-bottom: 10px;
-}
-
-.selTool,
-.selWidth,
-.colorButton,
-#save {
-    margin-right: 5px;
-}
-
-.text-input {
-    margin-top: 10px;
-}
-
-#font-input {
-    color: #222222;
-}
-
 input {
-    border-radius:5px;
-}
-
-.save-info {
-    margin-right: 10px;
-}
-
-.save-info #save-username {
-    margin-right: 10px;
-}
-
-.save-info #save-imagename {
-    color: #222222;
+    border-radius: 5px;
+    color: #222;
 }
