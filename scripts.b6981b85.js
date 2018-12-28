@@ -10683,267 +10683,604 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{"process":"node_modules/process/browser.js"}],"src/scripts/index.js":[function(require,module,exports) {
+},{"process":"node_modules/process/browser.js"}],"src/scripts/Shape.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Shape = function Shape(props) {
+  _classCallCheck(this, Shape);
+
+  this.x0 = props.x0 || 0;
+  this.y0 = props.y0 || 0;
+  this.x1 = props.x1 || 0;
+  this.y1 = props.y1 || 0;
+  this.width = props.width;
+  this.color = props.color;
+  this.isFilled = props.isFilled;
+};
+
+var _default = Shape;
+exports.default = _default;
+},{}],"src/scripts/Pen.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Shape2 = _interopRequireDefault(require("./Shape"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Pen =
+/*#__PURE__*/
+function (_Shape) {
+  _inherits(Pen, _Shape);
+
+  function Pen(props) {
+    var _this;
+
+    _classCallCheck(this, Pen);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Pen).call(this, props));
+    _this.points = [{
+      x: props.x0,
+      y: props.y0
+    }];
+    return _this;
+  }
+
+  _createClass(Pen, [{
+    key: "addPoint",
+    value: function addPoint(x, y) {
+      this.points.push({
+        x: x,
+        y: y
+      });
+    }
+  }, {
+    key: "draw",
+    value: function draw(ctx) {
+      ctx.beginPath();
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth = this.width;
+      ctx.moveTo(this.points[0].x, this.points[0].y);
+      this.points.forEach(function (point) {
+        ctx.lineTo(point.x, point.y);
+        ctx.moveTo(point.x, point.y);
+      });
+      ctx.stroke();
+    }
+  }]);
+
+  return Pen;
+}(_Shape2.default);
+
+var _default = Pen;
+exports.default = _default;
+},{"./Shape":"src/scripts/Shape.js"}],"src/scripts/Line.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Shape2 = _interopRequireDefault(require("./Shape"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Line =
+/*#__PURE__*/
+function (_Shape) {
+  _inherits(Line, _Shape);
+
+  function Line() {
+    _classCallCheck(this, Line);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Line).apply(this, arguments));
+  }
+
+  _createClass(Line, [{
+    key: "draw",
+    value: function draw(ctx) {
+      ctx.beginPath();
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth = this.width;
+      ctx.lineCap = 'round';
+      ctx.moveTo(this.x0, this.y0);
+      ctx.lineTo(this.x1, this.y1);
+      ctx.stroke();
+    }
+  }]);
+
+  return Line;
+}(_Shape2.default);
+
+var _default = Line;
+exports.default = _default;
+},{"./Shape":"src/scripts/Shape.js"}],"src/scripts/Rect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Shape2 = _interopRequireDefault(require("./Shape"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Rect =
+/*#__PURE__*/
+function (_Shape) {
+  _inherits(Rect, _Shape);
+
+  function Rect() {
+    _classCallCheck(this, Rect);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Rect).apply(this, arguments));
+  }
+
+  _createClass(Rect, [{
+    key: "draw",
+    value: function draw(ctx) {
+      console.log(this);
+
+      if (this.isFilled) {
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.rect(this.x0, this.y0, this.x1, this.y1);
+        ctx.fill();
+        ctx.closePath();
+      } else {
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.width;
+        ctx.strokeRect(this.x0, this.y0, this.x1, this.y1);
+      }
+    }
+  }]);
+
+  return Rect;
+}(_Shape2.default);
+
+var _default = Rect;
+exports.default = _default;
+},{"./Shape":"src/scripts/Shape.js"}],"src/scripts/Circle.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Shape2 = _interopRequireDefault(require("./Shape"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Circle =
+/*#__PURE__*/
+function (_Shape) {
+  _inherits(Circle, _Shape);
+
+  function Circle() {
+    _classCallCheck(this, Circle);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Circle).apply(this, arguments));
+  }
+
+  _createClass(Circle, [{
+    key: "draw",
+    value: function draw(ctx) {
+      ctx.beginPath();
+      ctx.moveTo(this.x0, this.y0 + (this.y1 - this.y0) / 2);
+      ctx.bezierCurveTo(this.x0, this.y0, this.x1, this.y0, this.x1, this.y0 + (this.y1 - this.y0) / 2);
+      ctx.bezierCurveTo(this.x1, this.y1, this.x0, this.y1, this.x0, this.y0 + (this.y1 - this.y0) / 2);
+      ctx.closePath();
+
+      if (this.isFilled) {
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      } else {
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.width;
+        ctx.stroke();
+      }
+    }
+  }]);
+
+  return Circle;
+}(_Shape2.default);
+
+var _default = Circle;
+exports.default = _default;
+},{"./Shape":"src/scripts/Shape.js"}],"src/scripts/Text.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Shape2 = _interopRequireDefault(require("./Shape"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Text =
+/*#__PURE__*/
+function (_Shape) {
+  _inherits(Text, _Shape);
+
+  function Text(props) {
+    var _this;
+
+    _classCallCheck(this, Text);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Text).call(this, props));
+    _this.font = props.font || 'Calibri';
+    _this.fontSize = props.fontSize || '10pt';
+    _this.fontInput = props.fontInput;
+    return _this;
+  }
+
+  _createClass(Text, [{
+    key: "draw",
+    value: function draw(ctx) {
+      ctx.font = "".concat(this.fontSize, " ").concat(this.font);
+      ctx.fillStyle = this.color;
+      ctx.fillText(this.fontInput, this.x0, this.y0);
+    }
+  }]);
+
+  return Text;
+}(_Shape2.default);
+
+var _default = Text;
+exports.default = _default;
+},{"./Shape":"src/scripts/Shape.js"}],"src/scripts/index.js":[function(require,module,exports) {
 "use strict";
 
 var _jquery = _interopRequireDefault(require("jquery"));
 
+var _Pen = _interopRequireDefault(require("./Pen"));
+
+var _Line = _interopRequireDefault(require("./Line"));
+
+var _Rect = _interopRequireDefault(require("./Rect"));
+
+var _Circle = _interopRequireDefault(require("./Circle"));
+
+var _Text = _interopRequireDefault(require("./Text"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _jquery.default)(document).ready(function () {
-  var canvas = (0, _jquery.default)('#myCanvas');
-  var c = canvas[0].getContext('2d');
-  var isDrawing = false;
-  (0, _jquery.default)('.text-input').hide();
-  (0, _jquery.default)('.filled-stroked').hide();
-  var drawing = {
-    shapes: [],
-    nextObject: 'pen',
-    nextColor: 'black',
-    nextWidht: 4,
-    font: 'Calibri',
-    fontSize: '10pt',
-    fontInput: ' ',
-    currentInputbox: 0,
-    isFilled: false
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var TOOL_IDS = {
+  ERASOR: 'erasor',
+  PEN: 'pen',
+  LINE: 'line',
+  RECT: 'rect',
+  CIRCLE: 'circle',
+  TEXT: 'text'
+};
+var state = {
+  shapes: [],
+  undoneShapes: [],
+  nextToolId: TOOL_IDS.PEN,
+  nextColor: 'black',
+  nextWidth: 4,
+  font: 'Calibri',
+  fontSize: '10pt',
+  fontInput: 'text',
+  isFilled: false,
+  isDrawing: false,
+  mouse: {
+    x: null,
+    y: null
+  }
+};
+var canvas;
+var ctx;
+
+function init() {
+  // Set up canvas
+  canvas = (0, _jquery.default)('#myCanvas');
+  ctx = canvas[0].getContext('2d');
+  initControls();
+  registerEventListeners();
+  setInterval(draw, 60);
+}
+
+function initControls() {
+  (0, _jquery.default)('.selTool').val(state.nextToolId);
+  (0, _jquery.default)('.selWidth').val(state.nextWidth);
+  (0, _jquery.default)('.colorButton').val(state.nextColor);
+  (0, _jquery.default)('#filled').prop('checked', state.isFilled); // Text
+
+  (0, _jquery.default)('#font-input').val(state.fontInput);
+  (0, _jquery.default)('.font-family').val(state.font);
+  (0, _jquery.default)('.font-size').val(state.fontSize);
+}
+
+function draw() {
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  state.shapes.forEach(function (shape) {
+    return shape.draw(ctx);
+  });
+}
+
+function clearCanvas() {
+  state.shapes = [];
+  state.undoneShapes = [];
+}
+
+function undo() {
+  if (state.shapes.length > 0) {
+    state.undoneShapes.push(state.shapes.pop());
+  }
+}
+
+function redo() {
+  if (state.undoneShapes.length > 0) {
+    state.shapes.push(state.undoneShapes.pop());
+  }
+}
+
+function onInputChange(stateProp) {
+  var eventTargetProp = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'value';
+  return function (e) {
+    state[stateProp] = e.target[eventTargetProp];
   };
-  var redo = {
-    shapes: []
-  };
+}
 
-  function drawAll() {
-    c.clearRect(0, 0, c.canvas.width, c.canvas.height);
-    drawing.shapes.forEach(function (shape) {
-      shape.draw();
-    });
-  } // clear canvas
+function onToolInputChange(e) {
+  onInputChange('nextToolId')(e);
 
-
-  (0, _jquery.default)('#clearCanvas').on('click', function (e) {
-    redo.shapes = [];
-    drawing.shapes = [];
-  });
-  (0, _jquery.default)('#undo').on('click', function (e) {
-    if (drawing.shapes.length > 0) {
-      redo.shapes.push(drawing.shapes.pop());
-    }
-
-    ;
-  });
-  (0, _jquery.default)('#redo').on('click', function (e) {
-    if (redo.shapes.length > 0) {
-      drawing.shapes.push(redo.shapes.pop());
-    }
-
-    ;
-  });
-  (0, _jquery.default)('.selTool').on('change', function (e) {
-    drawing.nextObject = (0, _jquery.default)(this).val();
-
-    if ((0, _jquery.default)(this).val() === 'text') {
-      (0, _jquery.default)('.text-input').show();
-    } else {
-      (0, _jquery.default)('.text-input').hide();
-    }
-
-    if ((0, _jquery.default)(this).val() === 'rect' || (0, _jquery.default)(this).val() === 'circle') {
-      (0, _jquery.default)('.filled-stroked').show();
-    } else {
-      (0, _jquery.default)('.filled-stroked').hide();
-    }
-
-    if ((0, _jquery.default)(this).val() === 'erasor') {
-      (0, _jquery.default)('.colorButton').hide();
-      (0, _jquery.default)('.selWidth').hide();
-    } else {
-      (0, _jquery.default)('.colorButton').show();
-      (0, _jquery.default)('.selWidth').show();
-    }
-  });
-  (0, _jquery.default)('.colorButton').on('change', function (e) {
-    drawing.nextColor = (0, _jquery.default)(this).val();
-  });
-  (0, _jquery.default)('.selWidth').on('change', function (e) {
-    drawing.nextWidht = (0, _jquery.default)(this).val();
-  });
-  (0, _jquery.default)('.font-style').on('change', function (e) {
-    drawing.font = (0, _jquery.default)(this).val();
-  });
-  (0, _jquery.default)('.font-size').on('change', function (e) {
-    drawing.fontSize = (0, _jquery.default)(this).val();
-  });
-  (0, _jquery.default)('#font-input').on('change', function (e) {
-    drawing.fontInput = (0, _jquery.default)(this).val();
-  });
-  (0, _jquery.default)('.filled').on('change', function (e) {
-    if (drawing.isFilled === true) {
-      drawing.isFilled = false;
-    } else {
-      drawing.isFilled = true;
-    }
-  });
-  (0, _jquery.default)('#myCanvas').mousedown(function (e) {
-    if (drawing.nextObject === 'pen') {
-      drawing.shapes.push(new Pen(drawing.nextColor, drawing.nextWidht, e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
-    } else if (drawing.nextObject === 'line') {
-      drawing.shapes.push(new Line(drawing.nextColor, drawing.nextWidht, e.pageX - this.offsetLeft, e.pageY - this.offsetTop, e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
-    } else if (drawing.nextObject === 'rect') {
-      drawing.shapes.push(new Rect(drawing.nextColor, drawing.nextWidht, e.pageX - this.offsetLeft, e.pageY - this.offsetTop, e.pageX - this.offsetLeft, e.pageY - this.offsetTop, drawing.isFilled));
-    } else if (drawing.nextObject === 'circle') {
-      drawing.shapes.push(new Circle(drawing.nextColor, drawing.nextWidht, e.pageX - this.offsetLeft, e.pageY - this.offsetTop, e.pageX - this.offsetLeft, e.pageY - this.offsetTop, drawing.isFilled));
-    } else if (drawing.nextObject === 'text') {
-      drawing.shapes.push(new Text(drawing.nextColor, drawing.fontSize + ' ' + drawing.font, drawing.fontInput, e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
-    } else if (drawing.nextObject === 'erasor') {
-      drawing.shapes.push(new Pen('white', 20, e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
-    }
-
-    isDrawing = true;
-  });
-  (0, _jquery.default)('#myCanvas').mousemove(function (e) {
-    var l = drawing.shapes[drawing.shapes.length - 1];
-
-    if (isDrawing && drawing.nextObject === 'pen') {
-      l.addPoint(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-    } else if (isDrawing && drawing.nextObject === 'line') {
-      l.x1 = e.pageX - (0, _jquery.default)(this).offset().left;
-      l.y1 = e.pageY - (0, _jquery.default)(this).offset().top;
-    } else if (isDrawing && drawing.nextObject === 'rect') {
-      l.x1 = e.pageX - (0, _jquery.default)(this).offset().left - l.x0;
-      l.y1 = e.pageY - (0, _jquery.default)(this).offset().top - l.y0;
-    } else if (isDrawing && drawing.nextObject === 'circle') {
-      l.x1 = e.pageX - (0, _jquery.default)(this).offset().left;
-      l.y1 = e.pageY - (0, _jquery.default)(this).offset().top;
-    } else if (isDrawing && drawing.nextObject === 'erasor') {
-      l.addPoint(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-    }
-  });
-  (0, _jquery.default)('#myCanvas').mouseup(function (e) {
-    isDrawing = false;
-  });
-  (0, _jquery.default)('#myCanvas').mouseleave(function (e) {
-    isDrawing = false;
-  });
-
-  function Shape(color, thickness, x0, y0, x1, y1, font, fontInput, isFilled) {
-    this.x0 = x0 || 0;
-    this.y0 = y0 || 0;
-    this.x1 = x1 || 0;
-    this.y1 = y1 || 0;
-    this.thickness = thickness;
-    this.color = color;
-    this.font = font || '10pt Calibri';
-    this.fontInput = fontInput;
-    this.isFilled = isFilled;
-  } // ********* PEN *********
-
-
-  function Pen(color, thickness, x0, y0) {
-    Shape.call(this, color, thickness, x0, y0);
-    this.points = [{
-      x: x0,
-      y: y0
-    }];
+  if (state.nextToolId === TOOL_IDS.TEXT) {
+    (0, _jquery.default)('.text-input').show();
+  } else {
+    (0, _jquery.default)('.text-input').hide();
   }
 
-  Pen.prototype = new Shape();
+  if (state.nextToolId === TOOL_IDS.RECT || state.nextToolId === TOOL_IDS.CIRCLE) {
+    (0, _jquery.default)('.filled-stroked').show();
+  } else {
+    (0, _jquery.default)('.filled-stroked').hide();
+  }
 
-  Pen.prototype.addPoint = function (x, y) {
-    this.points.push({
-      x: x,
-      y: y
-    });
+  if (state.nextToolId === TOOL_IDS.ERASOR) {
+    (0, _jquery.default)('.colorButton').hide();
+  } else {
+    (0, _jquery.default)('.colorButton').show();
+  }
+}
+
+function startShapeDraw() {
+  var mouse = state.mouse,
+      nextToolId = state.nextToolId,
+      shapes = state.shapes,
+      color = state.nextColor,
+      width = state.nextWidth,
+      isFilled = state.isFilled,
+      fontSize = state.fontSize,
+      font = state.font,
+      fontInput = state.fontInput;
+  var updatedCoordinates = {
+    x0: mouse.x,
+    y0: mouse.y,
+    x1: mouse.x,
+    y1: mouse.y
   };
 
-  Pen.prototype.draw = function () {
-    c.beginPath();
-    c.strokeStyle = this.color;
-    c.lineWidth = this.thickness;
-    c.moveTo(this.points[0].x, this.points[0].y);
-    this.points.forEach(function (point) {
-      c.lineTo(point.x, point.y);
-      c.moveTo(point.x, point.y);
-    });
-    c.stroke();
-  }; // ********* LINE *********
-
-
-  function Line(color, thickness, x0, y0, x1, y1) {
-    Shape.call(this, color, thickness, x0, y0, x1, y1);
+  if (nextToolId === TOOL_IDS.PEN) {
+    shapes.push(new _Pen.default(_objectSpread({}, updatedCoordinates, {
+      color: color,
+      width: width
+    })));
+  } else if (state.nextToolId === TOOL_IDS.LINE) {
+    state.shapes.push(new _Line.default(_objectSpread({}, updatedCoordinates, {
+      color: color,
+      width: width
+    })));
+  } else if (state.nextToolId === TOOL_IDS.RECT) {
+    state.shapes.push(new _Rect.default(_objectSpread({}, updatedCoordinates, {
+      x1: width,
+      y1: width,
+      color: color,
+      width: width,
+      isFilled: isFilled
+    })));
+  } else if (state.nextToolId === TOOL_IDS.CIRCLE) {
+    state.shapes.push(new _Circle.default(_objectSpread({}, updatedCoordinates, {
+      color: color,
+      width: width,
+      isFilled: isFilled
+    })));
+  } else if (state.nextToolId === TOOL_IDS.TEXT) {
+    state.shapes.push(new _Text.default(_objectSpread({}, updatedCoordinates, {
+      color: color,
+      fontSize: fontSize,
+      font: font,
+      fontInput: fontInput
+    })));
+  } else if (state.nextToolId === TOOL_IDS.ERASOR) {
+    state.shapes.push(new _Pen.default(_objectSpread({}, updatedCoordinates, {
+      color: 'white',
+      width: width
+    })));
   }
 
-  Line.prototype = new Shape();
+  state.isDrawing = true;
+}
 
-  Line.prototype.draw = function () {
-    c.beginPath();
-    c.strokeStyle = this.color;
-    c.lineWidth = this.thickness;
-    c.lineCap = 'round';
-    c.moveTo(this.x0, this.y0);
-    c.lineTo(this.x1, this.y1);
-    c.stroke();
-  }; // ********* RECT *********
+function continueShapeDraw() {
+  var mouse = state.mouse,
+      shapes = state.shapes;
 
+  if (state.isDrawing) {
+    var shape = shapes[state.shapes.length - 1];
 
-  function Rect(color, thickness, x0, y0, x1, y1, isFilled) {
-    Shape.call(this, color, thickness, x0, y0, x1, y1, 0, 0, isFilled);
-  }
-
-  Rect.prototype = new Shape();
-
-  Rect.prototype.draw = function () {
-    if (this.isFilled) {
-      c.beginPath();
-      c.fillStyle = this.color;
-      c.rect(this.x0, this.y0, this.x1, this.y1);
-      c.fill();
-      c.closePath();
-    } else {
-      c.strokeStyle = this.color;
-      c.lineWidth = this.thickness;
-      c.strokeRect(this.x0, this.y0, this.x1, this.y1);
+    if (state.nextToolId === TOOL_IDS.PEN || state.nextToolId === TOOL_IDS.ERASOR) {
+      shape.addPoint(state.mouse.x, state.mouse.y);
+    } else if (state.nextToolId === TOOL_IDS.LINE) {
+      shape.x1 = mouse.x;
+      shape.y1 = mouse.y;
+    } else if (state.nextToolId === TOOL_IDS.RECT) {
+      shape.x1 = mouse.x - shape.x0;
+      shape.y1 = mouse.y - shape.y0;
+    } else if (state.nextToolId === TOOL_IDS.CIRCLE) {
+      shape.x1 = mouse.x;
+      shape.y1 = mouse.y;
     }
-  }; // ********* CIRCLE *********
-
-
-  function Circle(color, thickness, x0, y0, x1, y1, isFilled) {
-    Shape.call(this, color, thickness, x0, y0, x1, y1, 0, 0, isFilled);
   }
+}
 
-  Circle.prototype = new Shape();
+function setMouse(x, y) {
+  var rect = canvas[0].getBoundingClientRect();
+  var documentElement = document.documentElement;
+  var mouseX = x - rect.left - documentElement.scrollLeft;
+  var mouseY = y - rect.top - documentElement.scrollTop;
+  state.mouse.x = mouseX;
+  state.mouse.y = mouseY;
+}
 
-  Circle.prototype.draw = function () {
-    c.beginPath();
-    c.moveTo(this.x0, this.y0 + (this.y1 - this.y0) / 2);
-    c.bezierCurveTo(this.x0, this.y0, this.x1, this.y0, this.x1, this.y0 + (this.y1 - this.y0) / 2);
-    c.bezierCurveTo(this.x1, this.y1, this.x0, this.y1, this.x0, this.y0 + (this.y1 - this.y0) / 2);
-    c.closePath();
+function onMouseDown(e) {
+  setMouse(e.clientX, e.clientY);
+  startShapeDraw();
+}
 
-    if (this.isFilled) {
-      c.fillStyle = this.color;
-      c.fill();
-    } else {
-      c.strokeStyle = this.color;
-      c.lineWidth = this.thickness;
-      c.stroke();
-    }
-  }; // ********* TEXT *********
+function onMouseMove(e) {
+  setMouse(e.clientX, e.clientY);
+  continueShapeDraw();
+}
 
+function onMouseUp(e) {
+  state.isDrawing = false;
+}
 
-  function Text(color, fontProp, fontInput, x, y) {
-    Shape.call(this, color, 0, x, y, 0, 0, fontProp, fontInput, 0);
-  }
+function onMouseLeave(e) {
+  state.isDrawing = false;
+}
 
-  Text.prototype = new Shape();
+function registerEventListeners() {
+  // Undo/redo
+  (0, _jquery.default)('#clearCanvas').on('click', clearCanvas);
+  (0, _jquery.default)('#undo').on('click', undo);
+  (0, _jquery.default)('#redo').on('click', redo); // Tool inputs
 
-  Text.prototype.draw = function () {
-    c.font = this.font;
-    c.fillStyle = this.color;
-    c.fillText(this.fontInput, this.x0, this.y0);
-  };
+  (0, _jquery.default)('.selTool').on('change', onToolInputChange);
+  (0, _jquery.default)('.colorButton').on('change', onInputChange('nextColor'));
+  (0, _jquery.default)('.selWidth').on('change', onInputChange('nextWidth'));
+  (0, _jquery.default)('.font-family').on('change', onInputChange('font'));
+  (0, _jquery.default)('.font-size').on('change', onInputChange('fontSize'));
+  (0, _jquery.default)('#font-input').on('change', onInputChange('fontInput'));
+  (0, _jquery.default)('#filled').on('change', onInputChange('isFilled', 'checked')); // Mouse
 
-  setInterval(drawAll, 60);
-});
-},{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+  (0, _jquery.default)('#myCanvas').mousedown(onMouseDown).mousemove(onMouseMove).mouseup(onMouseUp).mouseleave(onMouseLeave);
+}
+
+(0, _jquery.default)(document).ready(init);
+},{"jquery":"node_modules/jquery/dist/jquery.js","./Pen":"src/scripts/Pen.js","./Line":"src/scripts/Line.js","./Rect":"src/scripts/Rect.js","./Circle":"src/scripts/Circle.js","./Text":"src/scripts/Text.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -10970,7 +11307,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60576" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55579" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

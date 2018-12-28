@@ -9884,7 +9884,13 @@ a.text-dark:hover, a.text-dark:focus {
     border-color: #dee2e6;
   }
 }
-/*# sourceMappingURL=bootstrap.css.map */html {
+/*# sourceMappingURL=bootstrap.css.map */html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+html {
     font-size: 15px;
 }
 
@@ -9892,6 +9898,7 @@ body {
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #ffffff;
     background-color: #222222;
+    height: 100vh;
 }
 
 h1 {
@@ -9906,10 +9913,16 @@ h1 {
 
 .app-container {
     padding-top: 20px;
-    width: 930px;
+    width: 900px;
+    height: 100%;
 }
 
 input {
     border-radius: 5px;
     color: #222;
+}
+
+.text-input,
+.filled-stroked {
+  display: none;
 }
