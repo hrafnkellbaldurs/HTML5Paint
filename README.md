@@ -1,2 +1,2 @@
 # HTML5Paint
-The source code lives on the gh-pages branch
+A painting application made with JavaScript and uses HTML5's canvas capabilities
