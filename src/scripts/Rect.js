@@ -2,7 +2,6 @@ import Shape from './Shape'
 
 class Rect extends Shape {
   draw (ctx) {
-    console.log(this)
     if (this.isFilled) {
       ctx.beginPath()
       ctx.fillStyle = this.color
