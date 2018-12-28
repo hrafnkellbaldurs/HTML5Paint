@@ -1,3 +1,5 @@
+@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 #myCanvas {
     border: 1px solid #000;
     background-color: #ffffff;
@@ -22,9 +24,9 @@ body {
     margin-bottom: 10px;
 }
 
-.selTool, 
-.selWidth, 
-.colorButton, 
+.selTool,
+.selWidth,
+.colorButton,
 #save {
     margin-right: 5px;
 }
