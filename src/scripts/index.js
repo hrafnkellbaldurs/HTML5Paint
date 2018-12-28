@@ -1,307 +1,248 @@
 import $ from 'jquery'
+import Pen from './Pen'
+import Line from './Line'
+import Rect from './Rect'
+import Circle from './Circle'
+import Text from './Text'
 
-$(document).ready(function () {
-  const canvas = $('#myCanvas')
-  const c = canvas[0].getContext('2d')
-  let isDrawing = false
-  $('.text-input').hide()
-  $('.filled-stroked').hide()
+const TOOL_IDS = {
+  ERASOR: 'erasor',
+  PEN: 'pen',
+  LINE: 'line',
+  RECT: 'rect',
+  CIRCLE: 'circle',
+  TEXT: 'text'
+}
 
-  const drawing = {
-    shapes: [],
-    nextObject: 'pen',
-    nextColor: 'black',
-    nextWidht: 4,
-    font: 'Calibri',
-    fontSize: '10pt',
-    fontInput: ' ',
-    currentInputbox: 0,
-    isFilled: false
+const state = {
+  shapes: [],
+  undoneShapes: [],
+  nextToolId: TOOL_IDS.PEN,
+  nextColor: 'black',
+  nextWidth: 4,
+  font: 'Calibri',
+  fontSize: '10pt',
+  fontInput: 'text',
+  isFilled: false,
+  isDrawing: false,
+  mouse: {
+    x: null,
+    y: null
+  }
+}
+
+let canvas
+let ctx
+
+function init () {
+  // Set up canvas
+  canvas = $('#myCanvas')
+  ctx = canvas[0].getContext('2d')
+
+  initControls()
+  registerEventListeners()
+  setInterval(draw, 60)
+}
+
+function initControls () {
+  $('.selTool').val(state.nextToolId)
+  $('.selWidth').val(state.nextWidth)
+  $('.colorButton').val(state.nextColor)
+  $('#filled').prop('checked', state.isFilled)
+
+  // Text
+  $('#font-input').val(state.fontInput)
+  $('.font-family').val(state.font)
+  $('.font-size').val(state.fontSize)
+}
+
+function draw () {
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+  state.shapes.forEach(shape => shape.draw(ctx))
+}
+
+function clearCanvas () {
+  state.shapes = []
+  state.undoneShapes = []
+}
+
+function undo () {
+  if (state.shapes.length > 0) {
+    state.undoneShapes.push(state.shapes.pop())
+  }
+}
+
+function redo () {
+  if (state.undoneShapes.length > 0) {
+    state.shapes.push(state.undoneShapes.pop())
+  }
+}
+
+function onInputChange (stateProp, eventTargetProp = 'value') {
+  return e => {
+    state[stateProp] = e.target[eventTargetProp]
+  }
+}
+
+function onToolInputChange (e) {
+  onInputChange('nextToolId')(e)
+
+  if (state.nextToolId === TOOL_IDS.TEXT) {
+    $('.text-input').show()
+  } else {
+    $('.text-input').hide()
   }
 
-  const redo = {
-    shapes: []
+  if ((state.nextToolId === TOOL_IDS.RECT) || (state.nextToolId === TOOL_IDS.CIRCLE)) {
+    $('.filled-stroked').show()
+  } else {
+    $('.filled-stroked').hide()
   }
 
-  function drawAll () {
-    c.clearRect(0, 0, c.canvas.width, c.canvas.height)
+  if ((state.nextToolId === TOOL_IDS.ERASOR)) {
+    $('.colorButton').hide()
+  } else {
+    $('.colorButton').show()
+  }
+}
 
-    drawing.shapes.forEach(function (shape) {
-      shape.draw()
-    })
+function startShapeDraw () {
+  const {
+    mouse,
+    nextToolId,
+    shapes,
+    nextColor: color,
+    nextWidth: width,
+    isFilled,
+    fontSize,
+    font,
+    fontInput
+  } = state
+
+  const updatedCoordinates = {
+    x0: mouse.x,
+    y0: mouse.y,
+    x1: mouse.x,
+    y1: mouse.y
   }
 
-  // clear canvas
-  $('#clearCanvas').on('click', function (e) {
-    redo.shapes = []
-    drawing.shapes = []
-  })
-
-  $('#undo').on('click', function (e) {
-    if (drawing.shapes.length > 0) {
-      redo.shapes.push(drawing.shapes.pop())
-    };
-  })
-
-  $('#redo').on('click', function (e) {
-    if (redo.shapes.length > 0) {
-      drawing.shapes.push(redo.shapes.pop())
-    };
-  })
-
-  $('.selTool').on('change', function (e) {
-    drawing.nextObject = $(this).val()
-    if ($(this).val() === 'text') {
-      $('.text-input').show()
-    } else {
-      $('.text-input').hide()
-    }
-
-    if (($(this).val() === 'rect') || ($(this).val() === 'circle')) {
-      $('.filled-stroked').show()
-    } else {
-      $('.filled-stroked').hide()
-    }
-
-    if (($(this).val() === 'erasor')) {
-      $('.colorButton').hide()
-      $('.selWidth').hide()
-    } else {
-      $('.colorButton').show()
-      $('.selWidth').show()
-    }
-  })
-
-  $('.colorButton').on('change', function (e) {
-    drawing.nextColor = $(this).val()
-  })
-
-  $('.selWidth').on('change', function (e) {
-    drawing.nextWidht = $(this).val()
-  })
-
-  $('.font-style').on('change', function (e) {
-    drawing.font = $(this).val()
-  })
-
-  $('.font-size').on('change', function (e) {
-    drawing.fontSize = $(this).val()
-  })
-
-  $('#font-input').on('change', function (e) {
-    drawing.fontInput = $(this).val()
-  })
-
-  $('.filled').on('change', function (e) {
-    if (drawing.isFilled === true) {
-      drawing.isFilled = false
-    } else {
-      drawing.isFilled = true
-    }
-  })
-
-  $('#myCanvas').mousedown(function (e) {
-    if (drawing.nextObject === 'pen') {
-      drawing.shapes.push(new Pen(
-        drawing.nextColor,
-        drawing.nextWidht,
-        e.pageX - this.offsetLeft,
-        e.pageY - this.offsetTop
-      ))
-    } else if (drawing.nextObject === 'line') {
-      drawing.shapes.push(new Line(
-        drawing.nextColor,
-        drawing.nextWidht,
-        e.pageX - this.offsetLeft,
-        e.pageY - this.offsetTop,
-        e.pageX - this.offsetLeft,
-        e.pageY - this.offsetTop
-      ))
-    } else if (drawing.nextObject === 'rect') {
-      drawing.shapes.push(new Rect(
-        drawing.nextColor,
-        drawing.nextWidht,
-        e.pageX - this.offsetLeft,
-        e.pageY - this.offsetTop,
-        e.pageX - this.offsetLeft,
-        e.pageY - this.offsetTop,
-        drawing.isFilled
-      ))
-    } else if (drawing.nextObject === 'circle') {
-      drawing.shapes.push(new Circle(
-        drawing.nextColor,
-        drawing.nextWidht,
-        e.pageX - this.offsetLeft,
-        e.pageY - this.offsetTop,
-        e.pageX - this.offsetLeft,
-        e.pageY - this.offsetTop,
-        drawing.isFilled
-      ))
-    } else if (drawing.nextObject === 'text') {
-      drawing.shapes.push(new Text(
-        drawing.nextColor,
-        drawing.fontSize + ' ' + drawing.font,
-        drawing.fontInput,
-        e.pageX - this.offsetLeft,
-        e.pageY - this.offsetTop
-      ))
-    } else if (drawing.nextObject === 'erasor') {
-      drawing.shapes.push(new Pen(
-        'white',
-        20,
-        e.pageX - this.offsetLeft,
-        e.pageY - this.offsetTop
-      ))
-    }
-
-    isDrawing = true
-  })
-
-  $('#myCanvas').mousemove(function (e) {
-    const l = drawing.shapes[drawing.shapes.length - 1]
-
-    if (isDrawing && drawing.nextObject === 'pen') {
-      l.addPoint(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)
-    } else if (isDrawing && drawing.nextObject === 'line') {
-      l.x1 = e.pageX - $(this).offset().left
-      l.y1 = e.pageY - $(this).offset().top
-    } else if (isDrawing && drawing.nextObject === 'rect') {
-      l.x1 = e.pageX - $(this).offset().left - l.x0
-      l.y1 = e.pageY - $(this).offset().top - l.y0
-    } else if (isDrawing && drawing.nextObject === 'circle') {
-      l.x1 = e.pageX - $(this).offset().left
-      l.y1 = e.pageY - $(this).offset().top
-    } else if (isDrawing && drawing.nextObject === 'erasor') {
-      l.addPoint(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)
-    }
-  })
-
-  $('#myCanvas').mouseup(function (e) {
-    isDrawing = false
-  })
-
-  $('#myCanvas').mouseleave(function (e) {
-    isDrawing = false
-  })
-
-  function Shape (color, thickness, x0, y0, x1, y1, font, fontInput, isFilled) {
-    this.x0 = x0 || 0
-    this.y0 = y0 || 0
-    this.x1 = x1 || 0
-    this.y1 = y1 || 0
-    this.thickness = thickness
-    this.color = color
-    this.font = font || '10pt Calibri'
-    this.fontInput = fontInput
-    this.isFilled = isFilled
+  if (nextToolId === TOOL_IDS.PEN) {
+    shapes.push(new Pen({
+      ...updatedCoordinates,
+      color,
+      width
+    }))
+  } else if (state.nextToolId === TOOL_IDS.LINE) {
+    state.shapes.push(new Line({
+      ...updatedCoordinates,
+      color,
+      width
+    }))
+  } else if (state.nextToolId === TOOL_IDS.RECT) {
+    state.shapes.push(new Rect({
+      ...updatedCoordinates,
+      x1: width,
+      y1: width,
+      color,
+      width,
+      isFilled
+    }))
+  } else if (state.nextToolId === TOOL_IDS.CIRCLE) {
+    state.shapes.push(new Circle({
+      ...updatedCoordinates,
+      color,
+      width,
+      isFilled
+    }))
+  } else if (state.nextToolId === TOOL_IDS.TEXT) {
+    state.shapes.push(new Text({
+      ...updatedCoordinates,
+      color,
+      fontSize,
+      font,
+      fontInput
+    }))
+  } else if (state.nextToolId === TOOL_IDS.ERASOR) {
+    state.shapes.push(new Pen({
+      ...updatedCoordinates,
+      color: 'white',
+      width
+    }))
   }
 
-  // ********* PEN *********
-  function Pen (color, thickness, x0, y0) {
-    Shape.call(this, color, thickness, x0, y0)
-    this.points = [{
-      x: x0,
-      y: y0
-    }]
-  }
+  state.isDrawing = true
+}
 
-  Pen.prototype = new Shape()
+function continueShapeDraw () {
+  const { mouse, shapes } = state
 
-  Pen.prototype.addPoint = function (x, y) {
-    this.points.push({
-      x: x,
-      y: y
-    })
-  }
+  if (state.isDrawing) {
+    const shape = shapes[state.shapes.length - 1]
 
-  Pen.prototype.draw = function () {
-    c.beginPath()
-
-    c.strokeStyle = this.color
-    c.lineWidth = this.thickness
-    c.moveTo(this.points[0].x, this.points[0].y)
-
-    this.points.forEach(function (point) {
-      c.lineTo(point.x, point.y)
-      c.moveTo(point.x, point.y)
-    })
-    c.stroke()
-  }
-
-  // ********* LINE *********
-  function Line (color, thickness, x0, y0, x1, y1) {
-    Shape.call(this, color, thickness, x0, y0, x1, y1)
-  }
-
-  Line.prototype = new Shape()
-
-  Line.prototype.draw = function () {
-    c.beginPath()
-    c.strokeStyle = this.color
-    c.lineWidth = this.thickness
-    c.lineCap = 'round'
-    c.moveTo(this.x0, this.y0)
-    c.lineTo(this.x1, this.y1)
-    c.stroke()
-  }
-
-  // ********* RECT *********
-  function Rect (color, thickness, x0, y0, x1, y1, isFilled) {
-    Shape.call(this, color, thickness, x0, y0, x1, y1, 0, 0, isFilled)
-  }
-
-  Rect.prototype = new Shape()
-
-  Rect.prototype.draw = function () {
-    if (this.isFilled) {
-      c.beginPath()
-      c.fillStyle = this.color
-      c.rect(this.x0, this.y0, this.x1, this.y1)
-      c.fill()
-      c.closePath()
-    } else {
-      c.strokeStyle = this.color
-      c.lineWidth = this.thickness
-      c.strokeRect(this.x0, this.y0, this.x1, this.y1)
+    if (state.nextToolId === TOOL_IDS.PEN || state.nextToolId === TOOL_IDS.ERASOR) {
+      shape.addPoint(state.mouse.x, state.mouse.y)
+    } else if (state.nextToolId === TOOL_IDS.LINE) {
+      shape.x1 = mouse.x
+      shape.y1 = mouse.y
+    } else if (state.nextToolId === TOOL_IDS.RECT) {
+      shape.x1 = mouse.x - shape.x0
+      shape.y1 = mouse.y - shape.y0
+    } else if (state.nextToolId === TOOL_IDS.CIRCLE) {
+      shape.x1 = mouse.x
+      shape.y1 = mouse.y
     }
   }
+}
 
-  // ********* CIRCLE *********
-  function Circle (color, thickness, x0, y0, x1, y1, isFilled) {
-    Shape.call(this, color, thickness, x0, y0, x1, y1, 0, 0, isFilled)
-  }
+function setMouse (x, y) {
+  const rect = canvas[0].getBoundingClientRect()
+  var documentElement = document.documentElement
+  var mouseX = x - rect.left - documentElement.scrollLeft
+  var mouseY = y - rect.top - documentElement.scrollTop
 
-  Circle.prototype = new Shape()
+  state.mouse.x = mouseX
+  state.mouse.y = mouseY
+}
 
-  Circle.prototype.draw = function () {
-    c.beginPath()
-    c.moveTo(this.x0, this.y0 + (this.y1 - this.y0) / 2)
-    c.bezierCurveTo(this.x0, this.y0, this.x1, this.y0, this.x1, this.y0 + (this.y1 - this.y0) / 2)
-    c.bezierCurveTo(this.x1, this.y1, this.x0, this.y1, this.x0, this.y0 + (this.y1 - this.y0) / 2)
-    c.closePath()
+function onMouseDown (e) {
+  setMouse(e.clientX, e.clientY)
+  startShapeDraw()
+}
 
-    if (this.isFilled) {
-      c.fillStyle = this.color
-      c.fill()
-    } else {
-      c.strokeStyle = this.color
-      c.lineWidth = this.thickness
-      c.stroke()
-    }
-  }
+function onMouseMove (e) {
+  setMouse(e.clientX, e.clientY)
+  continueShapeDraw()
+}
 
-  // ********* TEXT *********
-  function Text (color, fontProp, fontInput, x, y) {
-    Shape.call(this, color, 0, x, y, 0, 0, fontProp, fontInput, 0)
-  }
+function onMouseUp (e) {
+  state.isDrawing = false
+}
 
-  Text.prototype = new Shape()
+function onMouseLeave (e) {
+  state.isDrawing = false
+}
 
-  Text.prototype.draw = function () {
-    c.font = this.font
-    c.fillStyle = this.color
-    c.fillText(this.fontInput, this.x0, this.y0)
-  }
+function registerEventListeners () {
+  // Undo/redo
+  $('#clearCanvas').on('click', clearCanvas)
+  $('#undo').on('click', undo)
+  $('#redo').on('click', redo)
 
-  setInterval(drawAll, 60)
-})
+  // Tool inputs
+  $('.selTool').on('change', onToolInputChange)
+  $('.colorButton').on('change', onInputChange('nextColor'))
+  $('.selWidth').on('change', onInputChange('nextWidth'))
+  $('.font-family').on('change', onInputChange('font'))
+  $('.font-size').on('change', onInputChange('fontSize'))
+  $('#font-input').on('change', onInputChange('fontInput'))
+  $('#filled').on('change', onInputChange('isFilled', 'checked'))
+
+  // Mouse
+  $('#myCanvas')
+    .mousedown(onMouseDown)
+    .mousemove(onMouseMove)
+    .mouseup(onMouseUp)
+    .mouseleave(onMouseLeave)
+}
+
+$(document).ready(init)

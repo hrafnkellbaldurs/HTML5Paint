@@ -35,7 +35,7 @@
       <div class="col">
         <select class="selTool btn btn-primary mr-1">
           <option value="erasor">erasor</option>
-          <option value="pen" selected="selected">pen</option>
+          <option value="pen">pen</option>
           <option value="line">line</option>
           <option value="rect">rectangle</option>
           <option value="circle">circle</option>
@@ -44,14 +44,20 @@
 
         <select class="selWidth btn btn-primary mr-1">
           <option value="1">1</option>
-          <option value="2" selected="selected">2</option>
+          <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="50">50</option>
         </select>
 
         <select class="colorButton btn btn-primary mr-1">
-          <option value="black" selected="selected">black</option>
+          <option value="black">black</option>
           <option value="yellow">yellow</option>
           <option value="red">red</option>
           <option value="green">green</option>
@@ -59,15 +65,14 @@
         </select>
 
         <span class="filled-stroked">
-          <input class="filled" type="radio" name="fill" value="filled"> Filled </input>
-          <input class="filled" type="radio" name="fill" value="stroked" checked> Stroked </input>
+          <input id="filled" type="checkbox">Filled</input>
         </span>
 
         <div class="text-input mt-2">
           <input id="font-input" type="text" name="input-text" placeholder="Type here..."></input>
 
-          <select class="font-style btn btn-primary">
-            <option value="Calibri" selected="selected">Calibri</option>
+          <select class="font-family btn btn-primary">
+            <option value="Calibri">Calibri</option>
             <option value="Arial">Arial</option>
             <option value="Times New Roman">Times New Roman</option>
             <option value="Verdana">Verdana</option>
@@ -75,7 +80,7 @@
           </select>
 
           <select class="font-size btn btn-primary">
-            <option value="10pt" selected="selected">10pt</option>
+            <option value="10pt">10pt</option>
             <option value="14pt">14pt</option>
             <option value="18pt">18pt</option>
             <option value="24pt">24pt</option>
