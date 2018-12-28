@@ -1,0 +1,22 @@
+{
+  "name": "html5paint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hrafnkellbaldurs/HTML5Paint.git"
+  },
+  "contributors": [
+    "Hrafnkell Baldursson <kotkarl@gmail.com> (https://hrafnkellbaldurs.com)",
+    "Sigurdur Mar Atlason <siggimar92@gmail.com> (https://github.com/siggimar92)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hrafnkellbaldurs/HTML5Paint/issues"
+  },
+  "homepage": "https://github.com/hrafnkellbaldurs/HTML5Paint#readme"
+}
