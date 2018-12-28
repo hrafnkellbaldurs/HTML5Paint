@@ -1,0 +1,56 @@
+@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+#myCanvas {
+    border: 1px solid #000;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+body {
+    padding-top: 20px;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.42857143;
+    color: #ffffff;
+    background-color: #222222;
+}
+
+.another-container {
+    width: 930px;
+}
+
+.page-title {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.selTool,
+.selWidth,
+.colorButton,
+#save {
+    margin-right: 5px;
+}
+
+.text-input {
+    margin-top: 10px;
+}
+
+#font-input {
+    color: #222222;
+}
+
+input {
+    border-radius:5px;
+}
+
+.save-info {
+    margin-right: 10px;
+}
+
+.save-info #save-username {
+    margin-right: 10px;
+}
+
+.save-info #save-imagename {
+    color: #222222;
+}
